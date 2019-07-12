@@ -1,0 +1,17 @@
+server:
+  port: 8091
+
+spring:
+  datasource:
+    url: jdbc:mysql://47.106.232.130:3306/migoo?&useSSL=false&useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+    username: migoo
+    password: 123456qq
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  type-aliases-package: xyz.migoo.web.dao
+  mapper-locations: classpath:xyz/migoo/web/dao/*.xml
+
+logging:
+  level:
+    xyz.migoo: debug

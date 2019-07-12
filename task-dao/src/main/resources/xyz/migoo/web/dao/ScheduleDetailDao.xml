@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.migoo.web.dao.ScheduleDetailDAO">
+    <sql id="Base_Column_List">
+        sd.id, sd.title, sd.status, sd.level, sd.is_delete
+    </sql>
+    <!--region 通过用户获取 Schedule-->
+    <select id="selectByScheduleId" resultType="xyz.migoo.web.vo.ScheduleDetailVO" parameterType="xyz.migoo.web.po.ScheduleDetailPO">
+        select
+        <include refid="Base_Column_List"/>
+        from schedule_detail sd
+        where
+        sd.schedule_Id = #{scheduleId} and sd.is_delete = 0
+        order by sd.level desc, sd.status desc, sd.create_at desc
+    </select>
+    <!--endregion-->
+
+    <!--region 更新 Schedule-->
+    <update id="update" parameterType="xyz.migoo.web.po.ScheduleDetailPO">
+        UPDATE schedule_detail
+        <trim prefix="set" suffixOverrides=",">
+            <if test="title!=null and title!=''">title=#{title},</if>
+            <if test="status!=null">status =#{status},</if>
+            <if test="level!=null">level =#{level},</if>
+            <if test="isDelete!=null">is_delete =#{isDelete},</if>
+            <if test="modifyAt!=null">modify_at=#{modifyAt}</if>
+        </trim>
+        WHERE id = #{id}
+    </update>
+    <!--endregion-->
+
+    <!--region 新增 Schedule-->
+    <insert id="insert" parameterType="xyz.migoo.web.po.ScheduleDetailPO">
+        insert into schedule_detail
+        (id, schedule_id, title, status, level, is_delete, create_at, modify_at)
+        value (#{id}, #{scheduleId}, #{title}, #{status}, #{level}, #{isDelete}, #{createAt}, #{modifyAt})
+    </insert>
+    <!--endregion-->
+</mapper>
