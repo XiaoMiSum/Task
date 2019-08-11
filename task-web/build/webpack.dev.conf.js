@@ -5,6 +5,7 @@ var merge = require('webpack-merge')
 var baseWebpackConfig = require('./webpack.base.conf')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function (name) {
@@ -33,3 +34,18 @@ module.exports = merge(baseWebpackConfig, {
     new FriendlyErrorsPlugin()
   ]
 })
+
+optimization: {
+  minimizer: [
+    new UglifyJsPlugin({
+      exclude: /\.min\.js$/,
+      cache: true,
+      parallel: true, // 开启并行压缩，充分利用cpu
+      sourceMap: false,
+      extractComments: false, // 移除注释
+      uglifyOptions: {
+        compress: false
+      }
+    })
+  ]
+}
